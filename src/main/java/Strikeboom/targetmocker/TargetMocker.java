@@ -5,6 +5,7 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
+import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 
 import javax.security.auth.login.LoginException;
 import java.io.File;
@@ -30,8 +31,7 @@ public class TargetMocker {
         } catch (FileNotFoundException ignored) {}
         try {
             JDA jda = JDABuilder.createDefault(token).build();
-            jda.updateCommands().queue();
-            jda.upsertCommand("target","Targets Your Person!").addOption(OptionType.USER,"user","The User You Want Targeted",true).queue();
+            jda.updateCommands().addCommands(new CommandData ("target","Targets Your Person!").addOption(OptionType.USER,"user","The User You Want Targeted",true)).queue();
             jda.addEventListener(new MessageListener());
             jda.getPresence().setActivity(Activity.playing("/target @[user]"));
         } catch (LoginException e) {
